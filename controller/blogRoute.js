@@ -4,7 +4,9 @@ const withAuth =  require('../utils/auth')
 
 router.get('/', async (req,res) => {
     try {
-        const allBlogs =  await Blog.findAll();
+        const allBlogs =  await Blog.findAll({
+            include: {model: User, attributes: ['username']}
+        });
 
         const displayBlogs =  allBlogs.map((blog) => {
             blog.get({plain: true})
@@ -33,14 +35,9 @@ router.get('/:id', async (req, res) => {
     }
 })
 
-router.get('/login', async (req, res) => {
+router.get('/login',withAuth, async (req, res) => {
     try {
-
-
-        // if (req.session.loggedIn) {
-        //     res.redirect('/');
-        //     return;
-        //   }
+        
           res.render('login');
     } catch (err) {
         res.status(500).json(err)
@@ -49,14 +46,19 @@ router.get('/login', async (req, res) => {
 
 
 router.post('/', async (req, res) => {
+ try {
     const createBlog = await Blog.create({
         title: req.body.title,
         text: req.body.text,
         artist: req.body.artist,
         user_id: req.body.user_id
-    })
+    });
 
     res.status(200).json(createBlog)
+ } catch (err) {
+    res.status(500).json(err);
+    console.log(err);
+ }
 
 })
 
