@@ -11,7 +11,7 @@ router.get('/', async (req,res) => {
         const displayBlogs =  allBlogs.map((blog) => {
             blog.get({plain: true})
         });
-
+        // res.status(200).json(allBlogs)
         res.render('homepage', {
             displayBlogs
         })
@@ -45,7 +45,7 @@ router.get('/login',withAuth, async (req, res) => {
 })
 
 
-router.post('/', async (req, res) => {
+router.post('/', withAuth , async (req, res) => {
  try {
     const createBlog = await Blog.create({
         title: req.body.title,
