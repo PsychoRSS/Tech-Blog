@@ -8,41 +8,40 @@ router.get('/', async (req,res) => {
             include: {model: User, attributes: ['username']}
         });
 
-        const displayBlogs =  allBlogs.map((blog) => {
-            blog.get({plain: true})
-        });
-        // res.status(200).json(allBlogs)
+        const blogs =  allBlogs.map((blog) => blog.get({plain: true}));
+        // res.status(200).json(blogs)
         res.render('homepage', {
-            displayBlogs
-        })
+            blogs,
+            loggedIn: req.session.loggedIn
+        });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
     }
 });
 
-router.get('/:id', async (req, res) => {
-    try {
-        const singleBlog = await Blog.findByPk(req.params.id)
 
-        const blog =  singleBlog.get({plain: true});
+router.get('/login', (req, res) => {
+    res.render('login');
 
-        res.render('', {blog})
-        
-        
-    } catch (err) {
-        
-    }
 })
 
-router.get('/login',withAuth, async (req, res) => {
-    try {
+
+// router.get('/:id', async (req, res) => {
+//     try {
+//         const singleBlog = await Blog.findByPk(req.params.id)
+
+//         const blog =  singleBlog.get({plain: true});
+
+//         // res.render('', {blog})
         
-          res.render('login');
-    } catch (err) {
-        res.status(500).json(err)
-    }
-})
+        
+//     } catch (err) {
+//         console.log(err);
+//         res.status(500).json(err);
+//     }
+// });
+
 
 
 router.post('/', withAuth , async (req, res) => {

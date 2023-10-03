@@ -1,3 +1,13 @@
-{{#each displayBlogs as |blog| }}
-{{> blog-post}}
+{{#if blogs.length}}
+
+{{#each blogs as |Blog| }}
+<section class="card">
+    <header >{{Blog.title}}</header>
+
+    <p class="card-body">{{Blog.text}}</p>
+
+
+    <footer>{{Blog.artist}}</footer>
+</section>
 {{/each}}
+{{/if}}

@@ -13,12 +13,12 @@ const PORT = process.env.PORT || 3001;
 
 const sess = {
   secret: 'Super secret secret',
-  cookie: {},
+  // cookie: {},
   resave: false,
   saveUninitialized: true,
-  store: new SequelizeStore({
-    db: sequelize,
-  }),
+  // store: new SequelizeStore({
+  //   db: sequelize,
+  // }),
 };
 
 app.use(session(sess));
